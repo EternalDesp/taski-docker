@@ -10,6 +10,8 @@ WORKDIR /app
 
 # Скопировать с локального компьютера файл зависимостей
 # в текущую директорию (текущая директория — это /app).
+RUN pip install gunicorn==20.1.0
+
 COPY requirements.txt .
 
 # Выполнить в текущей директории команду терминала
@@ -22,4 +24,4 @@ RUN pip install -r requirements.txt --no-cache-dir
 COPY . .
 
 # При старте контейнера запустить сервер разработки.
-CMD ["python", "manage.py", "runserver", "0:8000"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "backend.wsgi"]
